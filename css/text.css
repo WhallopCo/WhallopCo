@@ -1,0 +1,32 @@
+p{
+    font-family: pixelify sans;
+    margin-top: 0px;
+    margin-bottom: 0px;
+
+}
+
+.video-title{
+    font-size: 18px;
+    font-weight: bold;
+    width: 300px;
+    line-height: 24px;
+    margin-bottom: 5px;
+}
+
+.video-stats{
+    color: gray;
+    font-size: 14px;
+    margin-bottom: 20px;
+}
+
+.channel-name{
+    font-size: 14px;
+    margin-bottom: 20px;
+}
+
+.description{
+    font-size: 14px;
+    width: 300px;
+    line-height: 22px;
+    margin-bottom: 20px;
+}
