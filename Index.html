@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Whallop & Co. Archive</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Lora:ital,wght@0,400;0,700;1,400&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<nav>
+  <a href="javascript:void(0)" onclick="resetFilters()" class="logo">WHALLOP & CO.</a>
+  <div class="nav-links">
+    <a href="javascript:void(0)" onclick="filterCategory('poetry')">Verse</a>
+    <a href="javascript:void(0)" onclick="filterCategory('prose')">Prose</a>
+    <a href="javascript:void(0)" onclick="filterCategory('research')">Research</a>
+    <a href="#">About</a>
+    <button id="theme-toggle" onclick="toggleTheme()">Switch Mode</button>
+  </div>
+</nav>
+
+<section class="hero">
+  <h1>The Whallop Manuscript Archive</h1>
+  <p class="hero-byline">
+    Works by 
+    <a href="javascript:void(0)" onclick="filterByAuthor('Walter J. Kinder')" class="author-link">Walter J. Kinder</a> 
+    & 
+    <a href="javascript:void(0)" onclick="filterByAuthor('Philip J. LaMantia')" class="author-link">Philip J. LaMantia</a>
+  </p>
+</section>
+
+<div class="feed">
+  <div id="poetry-section" class="category-section">
+    <div class="section-divider"><h2>Verse</h2></div>
+    <div id="poetry"></div>
+  </div>
+
+  <div id="prose-section" class="category-section">
+    <div class="section-divider"><h2>Prose</h2></div>
+    <div id="prose"></div>
+  </div>
+
+  <div id="research-section" class="category-section">
+    <div class="section-divider"><h2>Research</h2></div>
+    <div id="research"></div>
+  </div>
+</div>
+
+<footer>
+  <div class="footer-left">© 2026 WHALLOP & CO. ARCHIVE</div>
+  <div class="footer-right">
+    <a href="StockSummary.html">STOCK DRAFT</a>
+    <a href="#">CONTACT</a>
+  </div>
+</footer>
+
+<script src="js/theme.js"></script>
+<script src="js/loader.js"></script>
+</body>
+</html>

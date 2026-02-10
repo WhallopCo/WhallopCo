@@ -1,0 +1,50 @@
+[
+  {
+    "category": "poetry",
+    "title": "poetry 1",
+    "author": "Philip J. LaMantia",
+    "date": "2026-02-09",
+    "content": "Pop Pop,\nPee Pee.",
+    "type": "poem"
+  },
+  {
+    "category": "research",
+    "title": "research 1",
+    "author": "Walter J. Kinder",
+    "date": "2026-02-09",
+    "content": "An investigation into the hidden patterns of market volatility...",
+    "type": "essay"
+  },
+  {
+    "category": "prose",
+    "title": "prose 1",
+    "author": "Walter J. Kinder",
+    "date": "2026-02-09",
+    "content": "Mama Said thered be days like this...",
+    "type": "prose"
+  },
+  {
+    "category": "poetry",
+    "title": "poetry 2",
+    "author": "Walter J. Kinder",
+    "date": "2026-02-10",
+    "content": "Pop Pop,\nPee Pee.",
+    "type": "poem"
+  },
+  {
+    "category": "research",
+    "title": "research 2",
+    "author": "Philip J. LaMantia",
+    "date": "2026-02-10",
+    "content": "An investigation into the hidden patterns of market volatility...",
+    "type": "essay"
+  },
+  {
+    "category": "prose",
+    "title": "prose 2",
+    "author": "Philip J. LaMantia",
+    "date": "2026-02-10",
+    "content": "Mama Said thered be days like this...",
+    "type": "prose"
+  }
+]

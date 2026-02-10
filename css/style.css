@@ -1,0 +1,192 @@
+/* 1. THEME VARIABLES */
+:root {
+  --bg-color: #0a0a0b;
+  --nav-border: rgba(255,255,255,0.1);
+  --gold: #c5a059;
+  --text-main: #e0e0e0;
+  --text-muted: #88888b;
+  --title-color: #ffffff;
+  --poetry-text: #d1d1d6;
+  --btn-text: #ffffff;
+}
+
+.light-mode {
+  --bg-color: #fcfaf7;
+  --nav-border: rgba(0,0,0,0.1);
+  --gold: #947434;
+  --text-main: #2c2c2e;
+  --text-muted: #636366;
+  --title-color: #1c1c1e;
+  --poetry-text: #3a3a3c;
+  --btn-text: #1c1c1e;
+}
+
+/* 2. GLOBAL STYLES */
+body {
+  background-color: var(--bg-color);
+  color: var(--text-main);
+  font-family: 'Lora', serif;
+  margin: 0;
+  line-height: 1.8;
+  transition: background-color 0.5s ease, color 0.5s ease;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* 3. NAVIGATION */
+nav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 30px 10%;
+  border-bottom: 1px solid var(--nav-border);
+  position: sticky;
+  top: 0;
+  background-color: var(--bg-color); 
+  z-index: 1000;
+  transition: background-color 0.5s ease;
+}
+
+.logo {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.5rem;
+  color: var(--gold);
+  text-decoration: none;
+  letter-spacing: 1px;
+}
+
+.nav-links a {
+  color: var(--text-muted);
+  text-decoration: none;
+  margin-left: 30px;
+  font-family: 'Inter', sans-serif;
+  font-size: 0.9rem;
+  transition: 0.3s;
+}
+
+.nav-links a:hover { color: var(--title-color); }
+
+#theme-toggle {
+  background: none;
+  border: 1px solid var(--gold);
+  color: var(--gold);
+  padding: 8px 12px;
+  font-family: 'Inter', sans-serif;
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  cursor: pointer;
+  margin-left: 30px;
+  transition: 0.3s;
+}
+
+#theme-toggle:hover { background-color: var(--gold); color: var(--bg-color); }
+
+/* 4. HERO & FEED */
+.hero { text-align: center; padding: 100px 20px; max-width: 900px; margin: 0 auto; }
+.hero h1 { font-family: 'Playfair Display', serif; font-size: 4rem; margin: 0; color: var(--title-color); }
+.hero-byline { color: var(--text-muted); font-size: 1.2rem; margin-top: 20px; font-family: 'Inter', sans-serif; }
+
+.author-link {
+  color: var(--text-main);
+  text-decoration: none;
+  border-bottom: 1px solid transparent;
+  transition: all 0.4s ease;
+}
+
+.author-link:hover { color: var(--gold); border-bottom: 1px solid var(--gold); }
+
+.feed { max-width: 700px; margin: 0 auto 100px auto; padding: 0 20px; }
+.metadata { font-family: 'Inter', sans-serif; text-transform: uppercase; letter-spacing: 2px; font-size: 0.75rem; color: var(--gold); margin-bottom: 15px; display: block; }
+
+h2 { font-family: 'Playfair Display', serif; font-size: 2.2rem; margin-bottom: 15px; color: var(--title-color); }
+.byline { font-family: 'Inter', sans-serif; font-size: 0.9rem; color: var(--text-muted); margin-bottom: 25px; }
+
+.poetry-block {
+  white-space: pre-line;
+  font-style: italic;
+  font-size: 1.2rem;
+  color: var(--poetry-text);
+  border-left: 1px solid var(--gold);
+  padding-left: 30px;
+  margin: 40px 0;
+}
+
+.btn-read {
+  display: inline-block;
+  padding: 12px 0;
+  color: var(--btn-text);
+  text-decoration: none;
+  font-family: 'Inter', sans-serif;
+  font-size: 0.9rem;
+  border-bottom: 1px solid var(--gold);
+  transition: 0.3s;
+}
+
+/* 5. SECTIONS & FOOTER */
+.section-divider {
+  text-align: center;
+  margin: 80px 0 40px 0;
+  padding-bottom: 10px;
+  border-bottom: 1px solid var(--nav-border);
+}
+
+.section-divider h2 {
+  font-family: 'Inter', sans-serif;
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  letter-spacing: 5px;
+  color: var(--gold);
+}
+
+footer {
+  border-top: 1px solid var(--nav-border);
+  padding: 60px 10%;
+  margin-top: 100px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-family: 'Inter', sans-serif;
+}
+
+.footer-left { color: var(--text-muted); font-size: 0.8rem; letter-spacing: 1px; }
+.footer-right a { color: var(--text-muted); text-decoration: none; font-size: 0.8rem; margin-left: 25px; transition: 0.3s; }
+.footer-right a:hover { color: var(--gold); }
+
+.essay-body {
+  font-size: 1.15rem;
+  color: var(--text-main);
+  white-space: pre-line; /* Keeps your paragraph breaks intact */
+  margin-top: 30px;
+}
+
+/* THE LENS SYSTEM ANIMATIONS */
+.category-section, .article-preview {
+  transition: opacity 0.5s ease, transform 0.5s ease, max-height 0.5s ease;
+  opacity: 1;
+  max-height: 5000px; 
+}
+
+/* Single class to handle all hidden states */
+.hidden-element {
+  opacity: 0 !important;
+  max-height: 0 !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  transform: translateY(10px);
+  pointer-events: none;
+  overflow: hidden;
+  border: none !important;
+}
+
+/* Individual article animation for filtering */
+.article-preview {
+  transition: opacity 0.5s ease, transform 0.5s ease, margin 0.5s ease;
+  opacity: 1;
+  transform: scale(1);
+}
+
+.article-preview.hidden {
+  opacity: 0;
+  transform: scale(0.95);
+  display: none; /* This removes the space it takes up */
+}
