@@ -1,32 +1,32 @@
 [
-  {
-    "category": "poetry",
-    "title": "The Knoll",
-    "author": "Philip J. LaMantia",
-    "date": "2025-11-25",
-    "summary": "There lives a man atop the Knoll,\nWhose greasy fingers seek control...",
-    "content": "There lives a man atop the Knoll,\nWhose greasy fingers seek control;\nAs days go past, the man yearns for more,\nLeaving his home to wander and spread his spores.\n\nIn villages he finds the ones in need,\nAnd offering kind help, he plants the seed.\nThen they find in their homes a creeping hold\nA plant, a vine, a spore becoming mold.\n\nThe man returns to his forested abode,\nSeeking some comfort, he finds his sickly toad.\nThe toad cries out, “Now let me go, I plea;\nNo longer do I want this grassbed home for me!”\nThe man grows angry and rumples at its nose;\nThus, the toad falls silent, working on its prose.\n\nThe Knoll seeks more its grasses growing hungry;\nThe man feeds it each day with gathered twigs dumbly.\nIt rumbles loud as colder nights draw near;\nSo he lies down with it and calls it dear.\nThe toad then creaks a ribbit filled with fear,\n“Please, I implore you now; O lend your ear.\nThe Knoll is feeding on your lonely mind;\nGo to the village, step outside.\nIn your absence I shall cleanse your home;\nThe Knoll will shrink, becoming a clean biome.”\n\nThe man then laughed at toad’s simple plea;\nHe knew the Knoll was the worst of any flea.\nYet left the home in hopes the toad was right\nThat such a creature small could mount a fight.\nThe days passed on; the toad stayed locked within,\nIts throat clogged thick by workings of the Djinn.\nYet it prevailed though nearing its last breath\nThe Knoll now clean and void of the lethe.\n\nAs toad drifted to sleep, the man returned,\nHolding a pot with brand new fronds newly un-fern’d.\nThough frog had tried, the man contained the stain\nA piece of Knoll embedded deep in his brain.\nThus fern took hold and gave the Knoll a path back;\nThe toad cried out, its lungs burst with spore-filled sacs.",
-    "type": "poem"
-  },
-  {
-    "category": "prose",
-    "title": "Test 1",
-    "author": "Walter J. Kinder",
-    "date": "2026-02-10",
-    "summary": "A brief Test from the hood.",
-    "content": "[Full multi-page story goes here...]",
-    "type": "prose"
-  },
-    {
-    "category": "poetry",
-    "title": "A Squire and a Knight",
-    "author": "Philip J. LaMantia",
-    "date": "2025-11-29",
-    "summary": "Squire and Knight rode miles together.\nThe Knight, worn thin, still carried steady flame.\nThe squire watched him, light as a feather...",
-    "content": "Squire and Knight rode miles together.\nThe Knight, worn thin, still carried steady flame.\nThe squire watched him, light as a feather.\n“Where do we ride today?\", the squire asked.\n“My final place. The ground that bears my name.”\n\nThe squire shrieked in fear, his master now departing.\n“Who will I learn from whence you are gone?\nStill full of wisdom left for imparting.\nLet me die first, for the world will not miss me.”\n“It will, for it is your time to be called-on”\n\n“Then, it is not your teachings but your amity\nI require. Watch me live as you taught,\nSo I don't suffer grave calamity.”\nA crow landed on the middle road.\n“I want nothing more. For this I am wrought.”\n\n“Who will find me when I am lost and scared?\nOr pick me up and guide my way back home?\nThere is more I need, I am lost, Impaired!”\nThe Knight looked stoically straight ahead.\n“Fear not, for your heart bears my final tome.”",
-    "type": "poem"
-  },
-  {
+{
+  "category": "poetry",
+  "title": "The Knoll",
+  "author": "Philip J. LaMantia",
+  "date": "2025-11-25",
+  "summary": "There lives a man atop the Knoll,\nWhose greasy fingers seek control;\nAs days go past, the man yearns for more,\nLeaving h...",
+  "content": "There lives a man atop the Knoll,\\nWhose greasy fingers seek control;\\nAs days go past, the man yearns for more,\\nLeaving his home to wander and spread his spores.\\nIn villages he finds the ones in need,\\nAnd offering kind help, he plants the seed.\\nThen they find in their homes a creeping hold\\nA plant, a vine, a spore becoming mold.\\n\\nThe man returns to his forested abode,\\nSeeking some comfort, he finds his sickly toad.\\nThe toad cries out, “Now let me go, I plea;\\nNo longer do I want this grassbed home for me!”\\nThe man grows angry and rumples at its nose;\\nThus, the toad falls silent, working on its prose.\\n\\nThe Knoll seeks more its grasses growing hungry;\\nThe man feeds it each day with gathered twigs dumbly.\\nIt rumbles loud as colder nights draw near;\\nSo he lies down with it and calls it dear.\\nThe toad then creaks a ribbit filled with fear,\\n“Please, I implore you now; O lend your ear.\\nThe Knoll is feeding on your lonely mind;\\nGo to the village, step outside.\\nIn your absence I shall cleanse your home;\\nThe Knoll will shrink, becoming a clean biome.”\\n\\nThe man then laughed at toad’s simple plea;\\nHe knew the Knoll was the worst of any flea.\\nYet left the home in hopes the toad was right\\nThat such a creature small could mount a fight.\\nThe days passed on; the toad stayed locked within,\\nIts throat clogged thick by workings of the Djinn.\\nYet it prevailed though nearing its last breath\\nThe Knoll now clean and void of the lethe.\\n\\nAs toad drifted to sleep, the man returned,\\nHolding a pot with brand new fronds newly un-fern’d.\\nThough frog had tried, the man contained the stain\\nA piece of Knoll embedded deep in his brain.\\nThus fern took hold and gave the Knoll a path back;\\nThe toad cried out, its lungs burst with spore-filled sacs.",
+  "type": "poem"
+},
+{
+  "category": "prose",
+  "title": "Test 1",
+  "author": "Walter J. Kinder",
+  "date": "2026-02-10",
+  "summary": "A brief Test from the hood.",
+  "content": "[Full multi-page story goes here...]",
+  "type": "prose"
+},
+{
+  "category": "poetry",
+  "title": "A Squire and A Knight",
+  "author": "Philip J. LaMantia",
+  "date": "2025-11-29",
+  "summary": "Squire and Knight rode miles together.\nThe Knight, worn thin, still carried steady flame.\nThe squire watched him, light ...",
+  "content": "Squire and Knight rode miles together.\\nThe Knight, worn thin, still carried steady flame.\\nThe squire watched him, light as a feather.\\n“Where do we ride today?”, the squire asked.\\n<b>“My final place. The ground that bears my name.”</b>\\n\\nThe squire shrieked in fear, his master now departing.\\n“Who will I learn from whence you are gone?\\nStill full of wisdom left for imparting.\\nLet me die first, for the world will not miss me.”\\n<b>“It will, for it is your time to be called-on”</b>\\n\\n“Then, it is not your teachings but your amity\\nI require. Watch me live as you taught,\\nSo I don't suffer grave calamity.”\\nA crow landed on the middle road.\\n<b>“I want nothing more. For this I am wrought.”</b>\\n\\n“Who will find me when I am lost and scared?\\nOr pick me up and guide my way back home?\\nThere is more I need, I am lost, Impaired!”\\nThe Knight looked stoically straight ahead.\\n<b>“Fear not, for your heart bears my final tome.”</b>",
+  "type": "poem"
+},
+{
   "category": "research",
   "title": "Economic Report on the effect of Active Income Residence Programs in Calabria",
   "author": "Philip J. LaMantia",
@@ -34,7 +34,7 @@
   "summary": "An investigation into Italy's population decline and the economic viability of the Active Income Residence Program (AIRP) in rural Calabria.",
   "content": "pdfs/Report on AIRP.pdf",  
   "type": "essay"
-  }
+}
 ]
 
 

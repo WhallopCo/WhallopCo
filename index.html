@@ -16,6 +16,10 @@
 <nav>
   <a href="javascript:void(0)" onclick="resetFilters()" class="logo">WHALLOP & CO.</a>
   <div class="nav-links">
+    <section class="search-container" style="max-width: 800px; margin: 0 auto 50px auto; padding: 0 20px;">
+      <input type="text" id="archiveSearch" placeholder="Search by title, author, or keyword..." onkeyup="searchArchive()" 
+             style="width: 100%; padding: 15px; background: transparent; border: none; border-bottom: 1px solid var(--gold); color: var(--text-main); font-family: 'Lora', serif; font-size: 1.1rem; outline: none;">
+    </section>
     <a href="javascript:void(0)" onclick="filterCategory('poetry')">Verse</a>
     <a href="javascript:void(0)" onclick="filterCategory('prose')">Prose</a>
     <a href="javascript:void(0)" onclick="filterCategory('research')">Research</a>
@@ -56,6 +60,7 @@
   <div class="footer-right">
     <a href="stocksummary.html">STOCK DRAFT</a>
     <a href="contact.html">CONTACT</a>
+    <a href="transcribe.html">TOOL</a>
   </div>
 </footer>
 

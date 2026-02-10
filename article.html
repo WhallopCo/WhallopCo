@@ -26,6 +26,7 @@
   <div class="footer-right">
     <a href="stocksummary.html">STOCK DRAFT</a>
     <a href="contact.html">CONTACT</a>
+    <a href="transcribe.html">TOOL</a>
   </div>
 </footer>
 
@@ -58,9 +59,12 @@ async function loadSingleArticle() {
         </div>`;
     } else {
       // Standard text/HTML rendering
+      // FIX: Replace the literal \n strings with real HTML line breaks
+      const formattedContent = work.content.replace(/\\n/g, '<br>');
+  
       displayContent = work.type === 'poem' 
-        ? `<div class="poetry-block">${work.content}</div>`
-        : `<div class="essay-body">${work.content}</div>`;
+        ? `<div class="poetry-block">${formattedContent}</div>`
+        : `<div class="essay-body">${formattedContent}</div>`;
     }
 
     container.innerHTML = `

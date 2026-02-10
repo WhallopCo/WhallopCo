@@ -260,3 +260,23 @@ embed, iframe, object {
 .midnight-mode .submission-form input::placeholder {
     color: rgba(255, 255, 255, 0.4);
 }
+
+.load-more-btn {
+  display: block;
+  margin: 40px auto;
+  background: none;
+  border: 1px solid var(--gold);
+  color: var(--gold);
+  padding: 10px 25px;
+  font-family: 'Inter', sans-serif;
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.load-more-btn:hover {
+  background-color: var(--gold);
+  color: var(--bg-color);
+}
