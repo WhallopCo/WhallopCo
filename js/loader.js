@@ -8,28 +8,36 @@ async function loadArchive() {
 
     works.forEach(work => {
       const section = document.getElementById(work.category);
+      
       if (section) {
         const article = document.createElement('article');
         article.className = 'article-preview';
         
+        // IMPROVED SUMMARY LOGIC: 
+        // 1. Use summary if it exists.
+        // 2. If no summary and it's a PDF, use a placeholder.
+        // 3. Otherwise, take a 200-character snippet of the text content.
+        let previewText = "";
+        if (work.summary) {
+          previewText = work.summary;
+        } else if (work.content.endsWith('.pdf')) {
+          previewText = "Manuscript available in PDF format. Click below to view.";
+        } else {
+          previewText = work.content.substring(0, 200) + "...";
+        }
+
         const contentHtml = work.type === 'poem' 
-          ? `<div class="poetry-block">${work.content}</div>`
-          : `<p class="excerpt">${work.content}</p>`;
+          ? `<div class="poetry-block">${previewText}</div>`
+          : `<p class="excerpt">${previewText}</p>`;
 
-        // Format the date for the reader (e.g., "February 2026")
-        const dateOptions = { month: 'long', year: 'numeric' };
-        const displayDate = new Date(work.date).toLocaleDateString(undefined, dateOptions);
-        // Inside your works.forEach loop in loader.js:
-
-        // Create a URL-friendly version of the title (e.g., "The Cerulean Gate" -> "the-cerulean-gate")
         const articleUrl = work.title.replace(/\s+/g, '-').toLowerCase();
 
         article.innerHTML = `
-            <span class="metadata">${work.date} • Volume I</span>
-            <h2>${work.title}</h2>
-            <div class="byline">By ${work.author}</div>
-            ${contentHtml}
-            <a href="article.html?id=${articleUrl}" class="btn-read">Full Manuscript</a>
+          <span class="metadata">${work.date} • Volume I</span>
+          <h2>${work.title}</h2>
+          <div class="byline">By ${work.author}</div>
+          ${contentHtml}
+          <a href="article.html?id=${articleUrl}" class="btn-read">Full Manuscript</a>
         `;
         
         section.appendChild(article);
@@ -40,9 +48,7 @@ async function loadArchive() {
   }
 }
 
-loadArchive();
-
-// TASK 4: Filter by Category (Verse, Prose, Research)
+// LENS SYSTEM: Filter by Category
 function filterCategory(target) {
   const categories = ['poetry', 'prose', 'research'];
   
@@ -51,7 +57,6 @@ function filterCategory(target) {
     if (section) {
       if (target === 'all' || cat === target) {
         section.classList.remove('hidden-element');
-        // Ensure articles inside are also visible
         section.querySelectorAll('.article-preview').forEach(a => a.classList.remove('hidden-element'));
       } else {
         section.classList.add('hidden-element');
@@ -61,15 +66,14 @@ function filterCategory(target) {
   window.scrollTo({ top: 0, behavior: 'smooth' });
 }
 
-// NEW TASK: Filter by Author
+// LENS SYSTEM: Filter by Author
 function filterByAuthor(name) {
-  // 1. Reset everything to visible first
   const sections = document.querySelectorAll('.category-section');
   const articles = document.querySelectorAll('.article-preview');
+
   sections.forEach(s => s.classList.remove('hidden-element'));
   articles.forEach(a => a.classList.remove('hidden-element'));
 
-  // 2. Hide articles that don't match the name
   articles.forEach(article => {
     const byline = article.querySelector('.byline').innerText;
     if (!byline.includes(name)) {
@@ -77,19 +81,18 @@ function filterByAuthor(name) {
     }
   });
 
-  // 3. Hide sections that now contain only hidden articles
   sections.forEach(section => {
     const visibleArticles = section.querySelectorAll('.article-preview:not(.hidden-element)');
     if (visibleArticles.length === 0) {
       section.classList.add('hidden-element');
     }
   });
-
   window.scrollTo({ top: 400, behavior: 'smooth' });
 }
 
-// Reset everything to the original state
 function resetFilters() {
   document.querySelectorAll('.hidden-element').forEach(el => el.classList.remove('hidden-element'));
   window.scrollTo({ top: 0, behavior: 'smooth' });
 }
+
+loadArchive();

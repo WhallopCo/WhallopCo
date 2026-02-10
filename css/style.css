@@ -180,6 +180,9 @@ footer {
 
 /* Individual article animation for filtering */
 .article-preview {
+  margin-bottom: 60px; /* Adjust this number until the spacing feels right */
+  padding-bottom: 20px;
+  border-bottom: 1px solid rgba(184, 134, 11, 0.2); /* Optional: A very subtle gold divider */
   transition: opacity 0.5s ease, transform 0.5s ease, margin 0.5s ease;
   opacity: 1;
   transform: scale(1);
@@ -189,4 +192,23 @@ footer {
   opacity: 0;
   transform: scale(0.95);
   display: none; /* This removes the space it takes up */
+}
+
+.hidden-element {
+  display: none !important;
+  opacity: 0;
+}
+
+/* Ensure the article page handles long text well */
+.essay-body {
+  white-space: pre-line;
+  font-size: 1.1rem;
+  line-height: 1.8;
+  margin-top: 20px;
+}
+
+/* Prevent the PDF from being affected by dark mode filters */
+embed, iframe, object {
+    filter: none !important;
+    background-color: white; /* Ensures the background stays visible */
 }

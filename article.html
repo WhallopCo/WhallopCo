@@ -30,33 +30,46 @@
 
 <script src="js/theme.js"></script>
 <script>
-  // Small script specifically for this page to load one article
-  async function loadSingleArticle() {
-    const params = new URLSearchParams(window.location.search);
-    const articleId = params.get('id'); // Gets the title or ID from the URL
+async function loadSingleArticle() {
+  const params = new URLSearchParams(window.location.search);
+  const articleId = params.get('id');
 
-    const response = await fetch('data/content.json');
-    const works = await response.json();
+  const response = await fetch('data/content.json');
+  const works = await response.json();
+  
+  // Find the work by the URL ID
+  const work = works.find(w => w.title.replace(/\s+/g, '-').toLowerCase() === articleId);
+
+  if (work) {
+    document.title = `${work.title} | Whallop & Co.`;
+    const container = document.getElementById('article-content');
     
-    // Find the specific work that matches the ID
-    const work = works.find(w => w.title.replace(/\s+/g, '-').toLowerCase() === articleId);
+    let displayContent = "";
 
-    if (work) {
-      document.title = `${work.title} | Whallop & Co.`;
-      const container = document.getElementById('article-content');
-      
-      const contentHtml = work.type === 'poem' 
+    // Check if the content is a path to a PDF
+    if (work.content.endsWith('.pdf')) {
+      displayContent = `
+        <div class="pdf-container" style="width: 100%; height: 80vh; margin-top: 30px;">
+          <embed src="${work.content}" type="application/pdf" width="100%" height="100%" />
+          <p style="text-align: center; margin-top: 15px;">
+            <a href="${work.content}" target="_blank" class="btn-read">Open PDF in New Tab</a>
+          </p>
+        </div>`;
+    } else {
+      // Standard text/HTML rendering
+      displayContent = work.type === 'poem' 
         ? `<div class="poetry-block">${work.content}</div>`
         : `<div class="essay-body">${work.content}</div>`;
-
-      container.innerHTML = `
-        <span class="metadata">${work.date} • ${work.category.toUpperCase()}</span>
-        <h1 style="font-family: 'Playfair Display', serif; font-size: 3.5rem; color: var(--title-color); margin-bottom: 10px;">${work.title}</h1>
-        <div class="byline" style="margin-bottom: 50px;">By ${work.author}</div>
-        ${contentHtml}
-      `;
     }
+
+    container.innerHTML = `
+      <span class="metadata">${work.date} • ${work.category.toUpperCase()}</span>
+      <h1>${work.title}</h1>
+      <div class="byline">By ${work.author}</div>
+      ${displayContent}
+    `;
   }
+}
   loadSingleArticle();
 </script>
 </body>
