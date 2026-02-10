@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="icon" type="image/png" href="favicon.png">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contact | Whallop & Co. Archive</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body class="midnight-mode">
+    <nav>
+        <a href="index.html" class="logo">WHALLOP & CO.</a>
+        <div class="nav-links">
+            <a href="index.html">Archive</a>
+            <a href="about.html">About</a>
+            <button id="theme-toggle" onclick="toggleTheme()">Switch Mode</button>
+        </div>
+    </nav>
+
+    <main class="container">
+        <section class="manuscript-section" style="text-align: center;">
+            <span class="metadata">CORRESPONDENCE</span>
+            <h1>Inquiries & Submissions</h1>
+            <p class="excerpt">For academic inquiries, collaborative projects, or requests regarding the Whallop & Co. manuscripts, please reach out via the channels below.</p>
+            
+            <div class="contact-item">
+                <span class="metadata">CORRESPONDENCE FORM</span>
+                <form action="https://formspree.io/f/mgolovlz" method="POST" class="submission-form">
+                    <div class="form-group">
+                        <input type="text" name="name" placeholder="Name/Alias" required>
+                        <input type="email" name="email" placeholder="Email Address" required>
+                    </div>
+                    <select name="category" required>
+                        <option value="" disabled selected>Select Category</option>
+                        <option value="Verse">Verse</option>
+                        <option value="Prose">Prose</option>
+                        <option value="Research">Research Inquiry</option>
+                    </select>
+                    <textarea name="message" placeholder="A brief summary of the manuscript or inquiry..." rows="5" required></textarea>
+                    <button type="submit" class="btn-read" style="background: none; border: 1px solid var(--gold); padding: 10px 30px; cursor: pointer;">Transmit</button>
+                </form>
+            </div>
+            
+            <div class="contact-methods" style="margin-top: 50px;">
+                <div class="contact-item">
+                    <span class="metadata">ELECTRONIC MAIL</span>
+                    <div style="display: flex; justify-content: center; gap: 20px; margin-top: 10px;">
+                        <a href="mailto:kinderwalter.rc.2@gmail.com" class="btn-read">Send an email to Walter</a>
+                        <a href="mailto:LaMantia.Philip@Proton.me" class="btn-read">Send an email to Phil</a>
+                    </div>
+                </div>
+
+                <div class="contact-item" style="margin-top: 40px;">
+                    <span class="metadata">DIGITAL PRESENCE</span>
+                    <div style="display: flex; justify-content: center; gap: 20px; margin-top: 10px;">
+                        <a href="https://www.linkedin.com/in/walterkinder912/" target="_blank" class="btn-read">Walter's LinkedIn</a>
+                        <a href="https://www.linkedin.com/in/philip-lamantia-5836842b2" target="_blank" class="btn-read">Phil's LinkedIn</a>
+                    </div>
+                </div>
+
+                <div class="contact-item" style="margin-top: 40px;">
+                    <span class="metadata">Buy us a Coffee</span>
+                    <p><a href="#" target="_blank" class="btn-read">Support Here</a></p>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="footer-left">© 2026 WHALLOP & CO.</div>
+        <div class="footer-right">
+            <a href="stocksummary.html">STOCK DRAFT</a>
+            <a href="contact.html">CONTACT</a>
+        </div>
+    </footer>
+
+    <script src="js/theme.js"></script>
+</body>
+</html>
