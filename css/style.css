@@ -280,3 +280,82 @@ embed, iframe, object {
   background-color: var(--gold);
   color: var(--bg-color);
 }
+
+/* --- REFINED MOBILE BEAUTIFICATION --- */
+@media (max-width: 768px) {
+    /* 1. Navigation: Center everything and force rows */
+    nav {
+        flex-direction: column !important;
+        padding: 20px 0;
+        height: auto;
+        text-align: center;
+    }
+
+    .logo {
+        margin-bottom: 20px;
+        width: 100%;
+        display: block;
+    }
+
+    .nav-links {
+        width: 100%;
+        margin: 0;
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 15px;
+    }
+
+    .nav-links a {
+        margin: 0 !important; /* Force desktop margins out */
+    }
+
+    /* 2. Search Bar: Ensure it occupies its own line */
+    .search-container {
+        width: 100%;
+        display: block;
+        margin: 20px auto !important;
+        box-sizing: border-box;
+    }
+
+    #archiveSearch {
+        width: 100% !important;
+    }
+
+    /* 3. Hero & Content Scaling */
+    .hero h1 {
+        font-size: 2.2rem;
+    }
+
+    /* 4. Contact Page: Alignment Fix for 'Support Here' */
+    .contact-methods {
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        align-items: center; /* Centers all children */
+    }
+
+    .contact-item {
+        width: 100%;
+        text-align: center; /* Ensures text like 'Buy us a Coffee' is centered */
+    }
+
+    .contact-item div[style*="display: flex"] {
+        flex-direction: column !important;
+        align-items: center;
+    }
+
+    /* Fix for the 'Support Here' button specific centering */
+    .contact-item p {
+        display: flex;
+        justify-content: center;
+        width: 100%;
+    }
+
+    .contact-item .btn-read {
+        width: 85% !important;
+        max-width: 300px;
+        margin: 10px auto;
+        text-align: center;
+    }
+}
