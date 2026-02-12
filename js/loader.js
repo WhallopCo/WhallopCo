@@ -24,6 +24,19 @@ async function loadArchive() {
   }
 }
 
+function romanize(num) {
+    if (isNaN(num)) return "I";
+    const lookup = {M:1000,CM:900,D:500,CD:400,C:100,XC:90,L:50,XL:40,X:10,IX:9,V:5,IV:4,I:1};
+    let roman = '';
+    for (let i in lookup) {
+        while (num >= lookup[i]) {
+            roman += i;
+            num -= lookup[i];
+        }
+    }
+    return roman;
+}
+
 function renderCategory(category) {
   const container = document.getElementById(category);
   const sectionWrapper = document.getElementById(`${category}-section`);
@@ -57,8 +70,10 @@ function renderCategory(category) {
 
     const articleUrl = work.title.replace(/\s+/g, '-').toLowerCase();
 
+    const volLabel = work.volume ? romanize(work.volume) : "I";
+
     article.innerHTML = `
-      <span class="metadata">${work.date} • Volume I</span>
+      <span class="metadata">${work.date} • Volume ${volLabel}</span>
       <h2>${work.title}</h2>
       <div class="byline">By ${work.author}</div>
       ${contentHtml}
@@ -130,30 +145,34 @@ function searchArchive() {
   if (query === "") {
     categories.forEach(cat => {
       const section = document.getElementById(`${cat}-section`);
-      section.style.display = 'block'; // Make sure the category section is visible
-      renderCategory(cat); // Re-run your chunk renderer to show the first 5
+      section.style.display = 'block';
+      renderCategory(cat);
     });
     return;
   }
 
   // 2. THE FILTER LOGIC: Search through the master list
   const filtered = allWorks.filter(work => {
-    return work.title.toLowerCase().includes(query) || 
-           work.author.toLowerCase().includes(query) || 
-           work.summary.toLowerCase().includes(query);
+    const volNum = work.volume ? work.volume.toString() : "";
+    const volRoman = work.volume ? romanize(work.volume).toLowerCase() : "";
+    return (
+      work.title.toLowerCase().includes(query) || 
+      work.author.toLowerCase().includes(query) || 
+      (work.summary && work.summary.toLowerCase().includes(query)) ||
+      volNum.includes(query) ||        // Matches "1", "2"
+      volRoman.includes(query)         // Matches "i", "ii", "iv"
+    );
   });
 
   // 3. THE DISPLAY LOGIC: Clear containers and show results
   categories.forEach(cat => {
     const container = document.getElementById(cat);
     const section = document.getElementById(`${cat}-section`);
+    if (!container || !section) return;
     container.innerHTML = ''; // Clear the "Chunked" view
-
-    // Hide "Load More" buttons during active search
     const btn = section.querySelector('.load-more-btn');
     if (btn) btn.style.display = 'none';
 
-    // Find matches for this specific category
     const matches = filtered.filter(w => w.category === cat);
     
     if (matches.length > 0) {
@@ -164,11 +183,12 @@ function searchArchive() {
         article.className = 'article-preview';
         
         // Ensure \n line breaks are handled in search previews too
+        const volLabel = work.volume ? romanize(work.volume) : "I";
         const previewText = (work.summary ? work.summary : work.content.substring(0, 200) + "...").replace(/\\n/g, '<br>');
         const articleUrl = work.title.replace(/\s+/g, '-').toLowerCase();
 
         article.innerHTML = `
-          <span class="metadata">${work.date} • Volume I</span>
+          <span class="metadata">${work.date} • Volume ${volLabel}</span>
           <h2>${work.title}</h2>
           <div class="byline">By ${work.author}</div>
           <p class="excerpt">${previewText}</p>
@@ -177,7 +197,6 @@ function searchArchive() {
         container.appendChild(article);
       });
     } else {
-      // Hide category section if no matches found
       section.style.display = 'none';
     }
   });

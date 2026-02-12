@@ -1,13 +1,33 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <link rel="icon" type="image/png" href="favicon.png">
+    <!--Primary Tags-->
+    <title>Manuscript | Whallop & Co.</title>
+    <meta name="title" content="Manuscript | Whallop & Co.">
+    <meta name="description" content="Manuscript from the Whallop & Co. Archive">
+    <link rel="icon" type="image/png" href="images/favicon.png">
+    
+    <!--Open Graph Tags-->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://whallopco.github.io/WhallopCo/article">
+    <meta property="og:title" content="Manuscript | Whallop & Co.">
+    <meta property="og:description" content="Manuscript from the Whallop & Co. Archive.">
+    <meta property="og:image" content= "https://raw.githubusercontent.com/WhallopCo/WhallopCo/refs/heads/main/images/Media-Card-Midnight.png">
+
+    <!-- X (Twitter) Tags-->
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:url" content="https://whallopco.github.io/WhallopCo/article">
+    <meta property="twitter:title" content="Manuscript | Whallop & Co.">
+    <meta property="twitter:description" content="Manuscript from the Whallop & Co. Archive.">
+    <meta property="twitter:image" content="https://raw.githubusercontent.com/WhallopCo/WhallopCo/refs/heads/main/images/Media-Card-Midnight.png">
+
+    <!--Page specs-->
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Manuscript | Whallop & Co.</title>
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Lora:ital,wght@0,400;0,700;1,400&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="css/style.css">
 </head>
+
 <body class="midnight-mode">
 
 <nav>
@@ -50,12 +70,14 @@ async function loadSingleArticle() {
 
     // Check if the content is a path to a PDF
     if (work.content.endsWith('.pdf')) {
+      // Add parameters to the URL to hide the native UI as much as possible
+      const pdfUrl = `${work.content}#view=FitH&toolbar=0&navpanes=0`;
       displayContent = `
-        <div class="pdf-container" style="width: 100%; height: 80vh; margin-top: 30px;">
-          <embed src="${work.content}" type="application/pdf" width="100%" height="100%" />
-          <p style="text-align: center; margin-top: 15px;">
+        <div class="pdf-container">
+          <iframe src="${pdfUrl}" type="application/pdf" width="100%" height="100%"></iframe>
+          <div class="pdf-fallback-link">
             <a href="${work.content}" target="_blank" class="btn-read">Open PDF in New Tab</a>
-          </p>
+          </div>
         </div>`;
     } else {
       // Standard text/HTML rendering

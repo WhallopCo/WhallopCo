@@ -213,6 +213,29 @@ embed, iframe, object {
     background-color: white; /* Ensures the background stays visible */
 }
 
+.pdf-container {
+    width: 100%;
+    height: 85vh; /* Makes the document the hero of the page */
+    margin: 40px 0;
+    border: 1px solid var(--nav-border);
+    background-color: var(--bg-color);
+    box-shadow: 0 10px 30px rgba(0,0,0,0.1); /* Adds depth to the frame */
+}
+
+.pdf-container iframe {
+    border: none; /* Removes the ugly default browser border */
+    display: block;
+    background-color: white;
+}
+
+.pdf-fallback-link {
+    text-align: center;
+    margin-top: 20px;
+    font-size: 0.9rem;
+    color: var(--text-muted);
+}
+
+
 /* Styling for Active Nav Links */
 .nav-links a.active {
     border-bottom: 2px solid var(--gold);
