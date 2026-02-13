@@ -1,191 +1,221 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <link rel="icon" type="image/png" href="favicon.png">
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>WhallopCo Stock Draft Dashboard</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <!--Primary Tags-->
+  <title>Stock Draft | Whallop & Co.</title>
+  <meta name="title" content="Whallop & Co. Stock Draft">
+  <meta name="description" content="2026 Stock Draft Stats.">
+  <link rel="icon" type="image/png" href="images/favicon.png">
+
+  <!--Open Graph Tags-->
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://whallopco.github.io/WhallopCo/stocksummary">
+  <meta property="og:title" content="Whallop & Co. Stock Draft">
+  <meta property="og:description" content="2026 Stock Draft Stats.">
+  <meta property="og:image" content= "https://raw.githubusercontent.com/WhallopCo/WhallopCo/refs/heads/main/images/Media-Card-Midnight.png">
+
+  <!-- X (Twitter) Tags-->
+  <meta property="twitter:card" content="summary_large_image">
+  <meta property="twitter:url" content="https://whallopco.github.io/WhallopCo/stocksummary">
+  <meta property="twitter:title" content="Whallop & Co. Stock Draft">
+  <meta property="twitter:description" content="2026 Stock Draft Stats.">
+  <meta property="twitter:image" content="https://raw.githubusercontent.com/WhallopCo/WhallopCo/refs/heads/main/images/Media-Card-Midnight.png">
+
+  <!--Page specs-->
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Lora:ital,wght@0,400;0,700;1,400&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+    
     <style>
-        body { padding: 2rem; background-color: #f8f9fa; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
-        .positive { color: #198754 !important; font-weight: bold; }
-        .negative { color: #dc3545 !important; font-weight: bold; }
-        .total-row { font-weight: bold; background-color: #f1f3f5 !important; }
-        .participant-header { background-color: #000; color: white; text-align: center; font-size: 1.8rem; padding: 0.75rem; border-radius: 8px; margin-top: 2rem; margin-bottom: 0; }
-        
-        table th, table td { text-align: center !important; vertical-align: middle; padding: 12px 8px !important; border: 1px solid #dee2e6; }
-        .table-dark th { background-color: #212529; border-color: #373b3e; }
-        
-        .rank-1 { background-color: #ffd700; color: #000; font-weight: bold; border-radius: 50%; width: 30px; height: 30px; display: inline-block; line-height: 30px; }
-        
-        .loading { text-align: center; padding: 3rem; }
-        .sidebar-btn { text-align: left; margin-bottom: 10px; border-radius: 8px; }
-        
-        /* Dashboard Container Styling */
-        .chart-container { background: white; border-radius: 12px; padding: 15px; box-shadow: 0 4px 12px rgba(0,0,0,0.05); margin-bottom: 2rem; overflow: hidden; }
-        .chart-container iframe { width: 100%; height: 600px; border: none; }
-        .stat-card { border-left: 5px solid #0d6efd; transition: transform 0.2s; background: white; border-radius: 8px; padding: 20px; box-shadow: 0 2px 8px rgba(0,0,0,0.05); }
-        .stat-card:hover { transform: translateY(-5px); }
+        /* Dynamic Iframe Container */
+        #sheet-container {
+            display: flex;
+            flex-direction: column;
+            gap: 30px; /* Space between multiple charts when stacked */
+            margin-top: 20px;
+        }
+
+        .dynamic-frame {
+            width: 100%;
+            height: 75vh; /* Standard height for each frame */
+            border: 1px solid var(--nav-border);
+            border-radius: 8px;
+            background-color: white; /* Keeps sheets legible on dark mode */
+            overflow: hidden;
+        }
+
+        /* Tab Buttons Container */
+        .tab-controls {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-top: 40px;
+            flex-wrap: wrap; 
+        }
+
+        /* Tab Button Styling */
+        .tab-btn {
+            background: transparent;
+            border: 1px solid var(--gold);
+            color: var(--text-main);
+            padding: 10px 20px;
+            font-family: 'Inter', sans-serif;
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            cursor: pointer;
+            border-radius: 4px;
+            transition: all 0.3s ease;
+        }
+
+        /* Hover and Active States */
+        .tab-btn:hover {
+            background-color: rgba(184, 134, 11, 0.1); 
+        }
+
+        .tab-btn.active {
+            background-color: var(--gold);
+            color: var(--bg-color); 
+            font-weight: 600;
+        }
+
+        /* Mobile Adjustments */
+        @media (max-width: 768px) {
+            .dynamic-frame {
+                height: 60vh; 
+                border-radius: 0;
+                border-left: none;
+                border-right: none;
+            }
+            .stock-main {
+                padding: 0 !important;
+                max-width: 100% !important;
+            }
+            .tab-controls {
+                gap: 10px;
+                padding: 0 10px;
+            }
+            .tab-btn {
+                flex: 1 1 100%; 
+                text-align: center;
+                padding: 12px 10px;
+            }
+        }
     </style>
 </head>
-<body>
-    <button class="btn btn-dark position-fixed top-0 start-0 m-3 shadow" type="button" data-bs-toggle="offcanvas" data-bs-target="#sidebarMenu" style="z-index: 1050;">
-        ☰ Menu
-    </button>
 
-    <div class="container text-center">
-        <h1 class="mb-4 mt-2">WhallopCo 2026 Stock Draft</h1>
-        <p class="lead">Live data from Google Sheet • Last updated: <span id="lastUpdated">loading...</span></p>
-        <div class="mb-4">
-            <button class="btn btn-primary shadow-sm" onclick="fetchData()">Refresh Now</button>
+<body class="midnight-mode">
+
+    <nav>
+        <a href="index.html" class="logo">WHALLOP & CO.</a>
+        <div class="nav-links">
+            <a href="index.html">Archive</a>
+            <a href="about.html">About</a>
+            <button id="theme-toggle" onclick="toggleTheme()">Switch Mode</button>
+        </div>
+    </nav>
+
+    <main class="container stock-main" style="max-width: 1056px; margin: 0 auto; padding: 0 20px;">
+        <div class="section-divider" style="margin-top: 50px; margin-bottom: 20px;">
+            <h2>Stock Draft Tracker
+                (Load Times May Vary)
+            </h2>
         </div>
 
-        <div id="content" class="loading">
-            <div class="spinner-border text-primary" role="status"></div>
-            <p class="mt-2">Connecting to sheets...</p>
-        </div>
-    </div>
+        <div class="tab-controls">
+            <button class="tab-btn active" onclick="switchView(this, [
+                'https://docs.google.com/spreadsheets/d/e/2PACX-1vRARwNrjdyuntbyEmaVbRd_iTV1vgRTavJy58sp5rgXQfkYPawidbT246O1KGGE02yg7QaQ15eHRQqH/pubhtml?gid=0&single=true',
+                'https://docs.google.com/spreadsheets/d/e/2PACX-1vRARwNrjdyuntbyEmaVbRd_iTV1vgRTavJy58sp5rgXQfkYPawidbT246O1KGGE02yg7QaQ15eHRQqH/pubhtml?gid=1470210531&single=true'
+            ])">
+                Main Summary
+            </button>
+            
+            <button class="tab-btn" onclick="switchView(this, [
+                'https://docs.google.com/spreadsheets/d/e/2PACX-1vRARwNrjdyuntbyEmaVbRd_iTV1vgRTavJy58sp5rgXQfkYPawidbT246O1KGGE02yg7QaQ15eHRQqH/pubhtml?gid=687698029&single=true',
+                'https://docs.google.com/spreadsheets/d/e/2PACX-1vRARwNrjdyuntbyEmaVbRd_iTV1vgRTavJy58sp5rgXQfkYPawidbT246O1KGGE02yg7QaQ15eHRQqH/pubhtml?gid=512021531&single=true'
+            ])">
+                Forty Stock Ranking
+            </button>
 
-    <div class="offcanvas offcanvas-start bg-dark text-white" tabindex="-1" id="sidebarMenu">
-        <div class="offcanvas-header border-bottom border-secondary">
-            <h5 class="offcanvas-title">Insights</h5>
-            <button type="button" class="btn-close btn-close-white" data-bs-dismiss="offcanvas"></button>
-        </div>
-        <div class="offcanvas-body">
-            <div class="d-grid">
-                <button class="btn btn-outline-light sidebar-btn" onclick="renderView('summary')">📊 Stock Summary</button>
-                <button class="btn btn-outline-light sidebar-btn" onclick="renderView('tracker')">🏆 Portfolio Tracker</button>
-                <button class="btn btn-outline-light sidebar-btn" onclick="renderView('sector')">🏗️ Sector Breakdown</button>
-            </div>
-        </div>
-    </div>
+            <button class="tab-btn" onclick="switchView(this, [
+                'https://docs.google.com/spreadsheets/d/e/2PACX-1vRARwNrjdyuntbyEmaVbRd_iTV1vgRTavJy58sp5rgXQfkYPawidbT246O1KGGE02yg7QaQ15eHRQqH/pubhtml?gid=1700179980&single=true',
+                'https://docs.google.com/spreadsheets/d/e/2PACX-1vRARwNrjdyuntbyEmaVbRd_iTV1vgRTavJy58sp5rgXQfkYPawidbT246O1KGGE02yg7QaQ15eHRQqH/pubhtml?gid=1243223777&single=true',
+                'https://docs.google.com/spreadsheets/d/e/2PACX-1vRARwNrjdyuntbyEmaVbRd_iTV1vgRTavJy58sp5rgXQfkYPawidbT246O1KGGE02yg7QaQ15eHRQqH/pubhtml?gid=1489629859&single=true'
+            ])">
+                Sector Summary
+            </button>
 
+            <button class="tab-btn" onclick="switchView(this, [
+                'https://docs.google.com/spreadsheets/d/e/2PACX-1vRARwNrjdyuntbyEmaVbRd_iTV1vgRTavJy58sp5rgXQfkYPawidbT246O1KGGE02yg7QaQ15eHRQqH/pubhtml?gid=1201927363&single=true',
+                'https://docs.google.com/spreadsheets/d/e/2PACX-1vRARwNrjdyuntbyEmaVbRd_iTV1vgRTavJy58sp5rgXQfkYPawidbT246O1KGGE02yg7QaQ15eHRQqH/pubhtml?gid=116374067&single=true'
+            ])">
+                POT Summary
+            </button>
+
+            <button class="tab-btn" onclick="switchView(this, [
+                'https://docs.google.com/spreadsheets/d/e/2PACX-1vRARwNrjdyuntbyEmaVbRd_iTV1vgRTavJy58sp5rgXQfkYPawidbT246O1KGGE02yg7QaQ15eHRQqH/pubhtml?gid=1636017097&single=true',
+                'https://docs.google.com/spreadsheets/d/e/2PACX-1vRARwNrjdyuntbyEmaVbRd_iTV1vgRTavJy58sp5rgXQfkYPawidbT246O1KGGE02yg7QaQ15eHRQqH/pubhtml?gid=260994042&single=true'
+            ])">
+                OPL Summary
+            </button>
+
+            <button class="tab-btn" onclick="switchView(this, [
+                'https://docs.google.com/spreadsheets/d/e/2PACX-1vRARwNrjdyuntbyEmaVbRd_iTV1vgRTavJy58sp5rgXQfkYPawidbT246O1KGGE02yg7QaQ15eHRQqH/pubhtml?gid=1702981652&single=true',
+                'https://docs.google.com/spreadsheets/d/e/2PACX-1vRARwNrjdyuntbyEmaVbRd_iTV1vgRTavJy58sp5rgXQfkYPawidbT246O1KGGE02yg7QaQ15eHRQqH/pubhtml?gid=905113574&single=true'
+            ])">
+                YPL Summary
+            </button>
+
+            <button class="tab-btn" onclick="switchView(this, [
+                'https://docs.google.com/spreadsheets/d/e/2PACX-1vRARwNrjdyuntbyEmaVbRd_iTV1vgRTavJy58sp5rgXQfkYPawidbT246O1KGGE02yg7QaQ15eHRQqH/pubhtml?gid=1502478472&single=true',
+                'https://docs.google.com/spreadsheets/d/e/2PACX-1vRARwNrjdyuntbyEmaVbRd_iTV1vgRTavJy58sp5rgXQfkYPawidbT246O1KGGE02yg7QaQ15eHRQqH/pubhtml?gid=1995648194&single=true'
+            ])">
+                JTW Summary
+            </button>
+
+        </div>
+        
+        <div id="sheet-container"></div>
+    </main>
+
+    <footer style="margin-top: 60px;">
+        <div class="footer-left">© 2026 WHALLOP & CO.</div>
+        <div class="footer-right">
+            <a href="stocksummary.html">STOCK DRAFT</a>
+            <a href="contact.html">CONTACT</a>
+            <a href="transcribe.html">TOOL</a>
+        </div>
+    </footer>
+
+    <script src="js/theme.js"></script>
     <script>
-        const API_URL = 'https://script.google.com/macros/s/AKfycbx9erPP2GD5V8r08Gp5vjOvBOVo5n6tw9XjWyS8Zxl5df9REyhvKdWxkh8TOsPi3jBD/exec';
-        let globalCompetitionData = null;
+        // Function to dynamically load one or more iframes based on an array of URLs
+        function switchView(btnElement, urlArray) {
+            // 1. Update the button styles
+            const allTabs = document.querySelectorAll('.tab-btn');
+            allTabs.forEach(tab => tab.classList.remove('active'));
+            btnElement.classList.add('active');
 
-        async function fetchData() {
-            const content = document.getElementById('content');
-            try {
-                const proxyUrl = `https://api.allorigins.win/get?url=${encodeURIComponent(API_URL)}&ts=${Date.now()}`;
-                const response = await fetch(proxyUrl);
-                const jsonWrapper = await response.json();
-                globalCompetitionData = JSON.parse(jsonWrapper.contents);
-                renderView('summary');
-                document.getElementById('lastUpdated').textContent = new Date().toLocaleTimeString();
-            } catch (error) {
-                content.innerHTML = `<div class="alert alert-warning mt-5">Connection Interrupted: ${error.message}</div>`;
-            }
+            // 2. Get the container and clear out any old iframes
+            const container = document.getElementById('sheet-container');
+            container.innerHTML = ''; 
+
+            // 3. Loop through the provided URLs and build a new iframe for each one
+            urlArray.forEach(url => {
+                const iframe = document.createElement('iframe');
+                // Appends Google Sheets cleanup parameters to the base URL
+                iframe.src = url + '&widget=true&headers=false&chrome=false'; 
+                iframe.className = 'dynamic-frame';
+                container.appendChild(iframe);
+            });
         }
 
-        function renderView(viewName) {
-            const content = document.getElementById('content');
-            if (!globalCompetitionData || !globalCompetitionData[viewName]) return;
-
-            let html = '';
-            const sheetData = globalCompetitionData[viewName];
-            const fmtUSD = (val) => new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' }).format(val);
-
-            if (viewName === 'sector') {
-                html += `
-                <div class="row">
-                    <div class="col-12"><div class="chart-container"><h3>Sector Allocation</h3><iframe src="https://docs.google.com/spreadsheets/d/e/2PACX-1vRARwNrjdyuntbyEmaVbRd_iTV1vgRTavJy58sp5rgXQfkYPawidbT246O1KGGE02yg7QaQ15eHRQqH/pubchart?oid=1581301282&format=interactive"></iframe></div></div>
-                    <div class="col-md-6"><div class="chart-container"><h3>Portfolio Weights</h3><iframe src="https://docs.google.com/spreadsheets/d/e/2PACX-1vRARwNrjdyuntbyEmaVbRd_iTV1vgRTavJy58sp5rgXQfkYPawidbT246O1KGGE02yg7QaQ15eHRQqH/pubchart?oid=1205457837&format=interactive"></iframe></div></div>
-                    <div class="col-md-6"><div class="chart-container"><h3>Industry Exposure</h3><iframe src="https://docs.google.com/spreadsheets/d/e/2PACX-1vRARwNrjdyuntbyEmaVbRd_iTV1vgRTavJy58sp5rgXQfkYPawidbT246O1KGGE02yg7QaQ15eHRQqH/pubchart?oid=1822315951&format=interactive"></iframe></div></div>
-                </div>`;
-            } 
-            else if (viewName === 'tracker') {
-                html += `<div class="chart-container"><h3>Overall Performance Trend</h3><iframe src="https://docs.google.com/spreadsheets/d/e/2PACX-1vRARwNrjdyuntbyEmaVbRd_iTV1vgRTavJy58sp5rgXQfkYPawidbT246O1KGGE02yg7QaQ15eHRQqH/pubchart?oid=1590890804&format=interactive"></iframe></div>`;
-                
-                let standingsRows = [];
-                let metrics = [];
-
-                // IMPROVED PARSING: Identify Standings vs Metrics
-                sheetData.slice(1).forEach(row => {
-                    if (!row || row.every(c => c === '' || c === null)) return;
-                    
-                    // Check if first column is a Rank (1, 2, 3, 4)
-                    const isRank = !isNaN(parseInt(row[0])) && row[1] !== "";
-                    
-                    if (isRank) {
-                        standingsRows.push(row);
-                    } else if (row[0] && row[0] !== "Rank") {
-                        metrics.push(row);
-                    }
-                });
-
-                // LEADERBOARD
-                html += `<div class="dashboard-card shadow-sm p-4 mb-4"><h3 class="mb-4 text-start">🏆 Live Standings</h3><div class="table-responsive"><table class="table leaderboard-table align-middle">
-                        <thead class="table-dark"><tr><th>Rank</th><th>Participant</th><th>Portfolio Value</th><th>% Change</th></tr></thead><tbody>`;
-                
-                standingsRows.forEach(row => {
-                    const rank = parseInt(row[0]);
-                    const pct = parseFloat(row[3]);
-                    const color = pct >= 0 ? 'positive' : 'negative';
-                    const displayPct = isNaN(pct) ? "0.00%" : (pct * 100).toFixed(2) + "%";
-
-                    html += `<tr>
-                        <td>${rank === 1 ? '<span class="rank-1">1</span>' : rank}</td>
-                        <td class="fw-bold">${row[1]}</td>
-                        <td>${fmtUSD(row[2] || 0)}</td>
-                        <td class="${color}">${displayPct}</td>
-                    </tr>`;
-                });
-                
-                html += `</tbody></table></div></div><div class="row">`;
-
-                // METRIC CARDS
-                metrics.forEach(m => {
-                    if(m[0] === "Participant") return; // Skip headers
-                    html += `<div class="col-md-4 mb-4">
-                        <div class="stat-card h-100">
-                            <h6 class="text-muted small fw-bold">${m[0]}</h6>
-                            <div class="display-6">${typeof m[1] === 'number' && m[1] > 1000 ? fmtUSD(m[1]) : m[1]}</div>
-                        </div>
-                    </div>`;
-                });
-                html += `</div>`;
-            } 
-            else {
-                // KEEP SUMMARY VIEW AS IS
-                let tableOpen = false;
-                const headers = sheetData[0];
-                for (let i = 1; i < sheetData.length; i++) {
-                    const row = sheetData[i];
-                    if (!row || row.every(c => c === '' || c === null)) continue;
-                    const filled = row.filter(c => c !== '' && c !== null);
-                    if (filled.length <= 2 && row.some(c => typeof c === 'string' && c.length > 2)) {
-                        if (tableOpen) html += '</tbody></table></div>';
-                        html += `<h2 class="participant-header">${filled[0]}</h2>`;
-                        tableOpen = false;
-                    }
-                    if (!tableOpen) {
-                        html += `<div class="table-responsive shadow-sm mt-2"><table class="table table-hover align-middle bg-white mb-0"><thead class="table-dark"><tr>${headers.map(h => `<th>${h || ''}</th>`).join('')}</tr></thead><tbody>`;
-                        tableOpen = true;
-                    }
-                    html += `<tr>`;
-                    row.forEach((cell, idx) => {
-                        let display = cell ?? '', className = '';
-                        if (typeof cell === 'number') {
-                            if ([3, 4, 6, 7, 8].includes(idx)) display = fmtUSD(cell);
-                            else if (idx === 5) display = cell.toFixed(2);
-                            else if (idx === 9) display = (cell * 100).toFixed(2) + '%';
-                            if ([8, 9].includes(idx)) className = cell > 0 ? 'positive' : (cell < 0 ? 'negative' : '');
-                        }
-                        html += `<td class="${className}">${display}</td>`;
-                    });
-                    html += `</tr>`;
-                }
-                if (tableOpen) html += '</tbody></table></div>';
-            }
-            content.innerHTML = html;
-            const sidebar = bootstrap.Offcanvas.getInstance(document.getElementById('sidebarMenu'));
-            if (sidebar) sidebar.hide();
-        }
-
-        fetchData();
-        setInterval(fetchData, 300000);
+        // 4. Force the first button to load its data immediately when the page loads
+        document.addEventListener('DOMContentLoaded', () => {
+            const firstButton = document.querySelector('.tab-btn');
+            if(firstButton) firstButton.click();
+        });
     </script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
