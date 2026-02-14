@@ -10,16 +10,6 @@
   "type": "poem"
 },
 {
-  "category": "prose",
-  "title": "Test 1",
-  "author": "Walter J. Kinder",
-  "date": "2026-02-10",
-  "volume": 10,
-  "summary": "A brief Test from the hood.",
-  "content": "[Full multi-page story goes here...]",
-  "type": "prose"
-},
-{
   "category": "poetry",
   "title": "A Squire and A Knight",
   "author": "Philip J. LaMantia",
@@ -188,6 +178,16 @@
   "summary": "He’s left his swamp\n and his bank in the road\n behind him, are his passerby\n before him, now\n are the sleepless.\n\nHe wai...",
   "content": "He’s left his swamp\\n and his bank in the road\\n behind him, are his passerby\\n before him, now\\n are the sleepless.\\n\\nHe waits\\n and they reach out\\n and he gives a finger\\n and then a hand\\n and then his head.\\n\\nAnd he returns\\n to his tower\\n bricks and shingles\\n leaving open his blinds\\n and his door.\\n\\nHe's gone on too long\\n Too proficient are his lies\\n Too convincing\\n is his face\\n No one ever says hello.\\n",
   "type": "poem"
+},
+{
+  "category": "prose",
+  "title": "Aé'elles",
+  "author": "Walter J. Kinder",
+  "date": "2026-02-14",
+  "volume": 5,
+  "summary": "Alex Kaylen travels to the island of Amanaan and realizes there an ultimate power....",
+  "content": "pdfs/Ae'elles.pdf",
+  "type": "essay"
 }
 ]
 
