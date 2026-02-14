@@ -88,14 +88,12 @@
             const date = document.getElementById('date').value || new Date().toISOString().split('T')[0];
             const category = document.getElementById('category').value;
 
-            // NEW: Replace manual formatting with JSON-safe strings
             const cleanContent = raw
                 .replace(/\\/g, "\\\\")
-                .replace(/"/g, '\\"')   // Escapes quotes used inside HTML tags like <span class="gold">
+                .replace(/"/g, '\\"')
                 .replace(/\n/g, "\\n")
                 .replace(/\r/g, "");
 
-            // Strip HTML for the summary so it doesn't look messy in the preview
             const tempDiv = document.createElement("div");
             tempDiv.innerHTML = raw;
             const plainTextForSummary = tempDiv.textContent || tempDiv.innerText || "";
@@ -106,7 +104,7 @@
                 title: title,
                 author: author,
                 date: date,
-                volume: parseInt(document.getElementById('volume').value) || 1, // Dynamic Volume
+                volume: parseInt(document.getElementById('volume').value) || 1,
                 summary: summaryText,
                 content: cleanContent,
                 type: category === 'poetry' ? 'poem' : 'essay'

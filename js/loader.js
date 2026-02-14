@@ -107,9 +107,15 @@ function updateLoadMoreButton(category, totalCount) {
   }
 }
 
-// LENS SYSTEM: Adjusted to reset counts when filtering
+// LENS SYSTEM
 function filterCategory(target) {
   const categories = ['poetry', 'prose', 'research'];
+  const heroSection = document.querySelector('.hero');
+
+  if (heroSection) {
+    heroSection.classList.add('hero-hidden');
+  }
+
   categories.forEach(cat => {
     const section = document.getElementById(`${cat}-section`);
     if (target === 'all' || cat === target) {
@@ -133,6 +139,10 @@ function filterByAuthor(name) {
 }
 
 function resetFilters() {
+  const heroSection = document.querySelector('.hero');
+  if (heroSection) {
+    heroSection.classList.remove('hero-hidden');
+  }
   document.querySelectorAll('.hidden-element').forEach(el => el.classList.remove('hidden-element'));
   window.scrollTo({ top: 0, behavior: 'smooth' });
 }
@@ -155,12 +165,20 @@ function searchArchive() {
   const filtered = allWorks.filter(work => {
     const volNum = work.volume ? work.volume.toString() : "";
     const volRoman = work.volume ? romanize(work.volume).toLowerCase() : "";
+    const workDate = work.date ? work.date.toLowerCase() : "";
+    const volFullNum = `volume ${volNum}`;
+    const volFullRoman = `volume ${volRoman}`;
+    const volShortNum = `vol ${volNum}`;
+    const volShortRoman = `vol ${volRoman}`;
     return (
       work.title.toLowerCase().includes(query) || 
       work.author.toLowerCase().includes(query) || 
       (work.summary && work.summary.toLowerCase().includes(query)) ||
-      volNum.includes(query) ||        // Matches "1", "2"
-      volRoman.includes(query)         // Matches "i", "ii", "iv"
+      volFullNum.includes(query) ||        // Matches "volume 10" or just "10"
+      volFullRoman.includes(query) ||      // Matches "volume x" or just "x"
+      volShortNum.includes(query) ||       // Matches "vol 10"
+      volShortRoman.includes(query) ||     // Matches "vol x"
+      workDate.includes(query)             // Matches "2025" or "2025-11"
     );
   });
 
@@ -178,7 +196,6 @@ function searchArchive() {
     if (matches.length > 0) {
       section.style.display = 'block';
       matches.forEach(work => {
-        // Re-use your existing article creation logic
         const article = document.createElement('article');
         article.className = 'article-preview';
         

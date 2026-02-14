@@ -3,17 +3,16 @@
     const savedTheme = localStorage.getItem('theme') || 'midnight';
     if (savedTheme === 'light') {
         document.documentElement.classList.add('light-mode');
-        // We use documentElement (HTML tag) because body might not exist yet
     }
 })();
 
-// 2. TOGGLE FUNCTION: Globally accessible for your onclick buttons
+// 2. TOGGLE FUNCTION
 function toggleTheme() {
     const isLight = document.documentElement.classList.toggle('light-mode');
     const theme = isLight ? 'light' : 'midnight';
     localStorage.setItem('theme', theme);
     
-    // Also toggle the midnight-mode class on body if you're still using it for specific CSS
+    // Also toggle the midnight-mode class on body if still using it for specific CSS
     document.body.classList.toggle('midnight-mode', !isLight);
 }
 

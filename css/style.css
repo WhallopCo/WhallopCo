@@ -82,9 +82,13 @@ nav {
 #theme-toggle:hover { background-color: var(--gold); color: var(--bg-color); }
 
 /* 4. HERO & FEED */
-.hero { text-align: center; padding: 100px 20px; max-width: 900px; margin: 0 auto; }
+.hero { text-align: center; padding: 100px 20px; max-width: 900px; margin: 0 auto;
+  transition: opacity 1s ease, max-height 0.6s ease, padding 0.6s ease;
+  max-height: 500px;
+  overflow: hidden; }
 .hero h1 { font-family: 'Playfair Display', serif; font-size: 4rem; margin: 0; color: var(--title-color); }
 .hero-byline { color: var(--text-muted); font-size: 1.2rem; margin-top: 20px; font-family: 'Inter', sans-serif; }
+.hero-hidden {opacity: 0; max-height: 0; padding-top: 0; padding-bottom: 0; pointer-events: none;}
 
 .author-link {
   color: var(--text-main);
@@ -155,15 +159,19 @@ footer {
 .essay-body {
   font-size: 1.15rem;
   color: var(--text-main);
-  white-space: pre-line; /* Keeps your paragraph breaks intact */
+  white-space: pre-line;
   margin-top: 30px;
 }
 
 /* THE LENS SYSTEM ANIMATIONS */
-.category-section, .article-preview {
+.category-section {
+  transition: opacity 0.5s ease, transform 0.5s ease; opacity: 1;
+}
+
+.article-preview {
   transition: opacity 0.5s ease, transform 0.5s ease, max-height 0.5s ease;
   opacity: 1;
-  max-height: 5000px; 
+  max-height: 8000px;
 }
 
 /* Single class to handle all hidden states */
@@ -180,9 +188,9 @@ footer {
 
 /* Individual article animation for filtering */
 .article-preview {
-  margin-bottom: 60px; /* Adjust this number until the spacing feels right */
+  margin-bottom: 60px;
   padding-bottom: 20px;
-  border-bottom: 1px solid rgba(184, 134, 11, 0.2); /* Optional: A very subtle gold divider */
+  border-bottom: 1px solid rgba(184, 134, 11, 0.2);
   transition: opacity 0.5s ease, transform 0.5s ease, margin 0.5s ease;
   opacity: 1;
   transform: scale(1);
@@ -191,7 +199,7 @@ footer {
 .article-preview.hidden {
   opacity: 0;
   transform: scale(0.95);
-  display: none; /* This removes the space it takes up */
+  display: none;
 }
 
 .hidden-element {
@@ -219,11 +227,11 @@ embed, iframe, object {
     margin: 40px 0;
     border: 1px solid var(--nav-border);
     background-color: var(--bg-color);
-    box-shadow: 0 10px 30px rgba(0,0,0,0.1); /* Adds depth to the frame */
+    box-shadow: 0 10px 30px rgba(0,0,0,0.1);
 }
 
 .pdf-container iframe {
-    border: none; /* Removes the ugly default browser border */
+    border: none;
     display: block;
     background-color: white;
 }
@@ -244,7 +252,7 @@ embed, iframe, object {
 
 .manuscript-section {
     max-width: 800px;
-    margin: 100px auto; /* Centers the content and adds vertical space */
+    margin: 100px auto;
     line-height: 1.8;
 }
 
@@ -304,7 +312,7 @@ embed, iframe, object {
   color: var(--bg-color);
 }
 
-/* --- REFINED MOBILE BEAUTIFICATION --- */
+/* ---MOBILE--- */
 @media (max-width: 768px) {
     /* 1. Navigation: Center everything and force rows */
     nav {
@@ -360,7 +368,7 @@ embed, iframe, object {
 
     .contact-item {
         width: 100%;
-        text-align: center; /* Ensures text like 'Buy us a Coffee' is centered */
+        text-align: center;
     }
 
     .contact-item div[style*="display: flex"] {
@@ -368,7 +376,6 @@ embed, iframe, object {
         align-items: center;
     }
 
-    /* Fix for the 'Support Here' button specific centering */
     .contact-item p {
         display: flex;
         justify-content: center;
