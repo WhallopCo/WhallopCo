@@ -96,7 +96,19 @@ async function loadSingleArticle() {
       ${displayContent}
     `;
   }
+  else {
+    // NEW: The fallback
+    document.title = "Not Found | Whallop & Co.";
+    document.getElementById('article-content').innerHTML = `
+      <div style="text-align: center; margin-top: 100px;">
+        <h2>Manuscript Not Found</h2>
+        <p class="excerpt">The requested document could not be located in the archive.</p>
+        <a href="index.html" class="btn-read" style="margin-top: 20px;">Return to Archive</a>
+      </div>
+    `;
+  }
 }
+
   loadSingleArticle();
 </script>
 </body>

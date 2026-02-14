@@ -131,9 +131,31 @@ function filterByAuthor(name) {
   // Reveal all, then filter
   resetFilters();
   const articles = document.querySelectorAll('.article-preview');
+  const heroSection = document.querySelector('.hero');
   articles.forEach(article => {
     if (!article.querySelector('.byline').innerText.includes(name)) {
       article.classList.add('hidden-element');
+    }
+
+    if (heroSection) {
+      heroSection.classList.add('hero-hidden');
+    }
+  });
+
+  // 2. Hide entire sections if they have no visible articles left
+  const categories = ['poetry', 'prose', 'research'];
+  categories.forEach(cat => {
+    const section = document.getElementById(`${cat}-section`);
+    const container = document.getElementById(cat); // The div holding the articles
+    
+    // Find all articles in this category that are NOT hidden
+    const visibleArticles = container.querySelectorAll('.article-preview:not(.hidden-element)');
+    
+    // If there are 0 visible articles, hide the whole section (including the header)
+    if (visibleArticles.length === 0) {
+      section.classList.add('hidden-element');
+    } else {
+      section.classList.remove('hidden-element');
     }
   });
 }
