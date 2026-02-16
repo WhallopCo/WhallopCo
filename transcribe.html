@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <link rel="icon" type="image/png" href="favicon.png">
+    <link rel="icon" type="image/png" href="images/favicon.png">
     <meta charset="UTF-8">
     <title>Whallop & Co. | Transcriber</title>
     <style>
@@ -12,7 +12,7 @@
             width: 100%; background: #0a0a0b; border: 1px solid #333; color: white; 
             padding: 12px; margin-bottom: 20px; box-sizing: border-box; border-radius: 4px;
         }
-        textarea { height: 250px; font-family: 'Lora', serif; line-height: 1.6; }
+        textarea { font-family: 'Lora', serif; line-height: 1.6; }
         .controls { display: flex; gap: 10px; margin-bottom: 10px; }
         .tag-btn { background: #333; color: #c5a059; border: 1px solid #c5a059; padding: 5px 10px; cursor: pointer; font-size: 0.7rem; border-radius: 4px; }
         button#main-gen { 
@@ -59,20 +59,23 @@
             </div>
         </div>
 
-        <label>Manuscript Content</label>
+        <label>Short Summary (Leave Blank for Verse)</label>
+        <textarea id="summaryInput" style="height: 100px;" placeholder="Enter a brief summary, for the home page..."></textarea>
+
+        <label>Full Manuscript Content</label>
         <div class="controls">
             <button class="tag-btn" onclick="wrapText('b')">Bold</button>
             <button class="tag-btn" onclick="wrapText('i')">Italic</button>
             <button class="tag-btn" onclick="wrapText('u')">Underline</button>
         </div>
-        <textarea id="rawInput"></textarea>
+        <textarea id="rawInput" style="height: 250px;"></textarea>
         
         <button id="main-gen" onclick="generateJSON()">Generate Archive Entry</button>
 
         <div id="result" class="output-box">JSON output will appear here...</div>
     </div>
 
-    <script>
+<script>
         function wrapText(tag) {
             const area = document.getElementById('rawInput');
             const start = area.selectionStart;
@@ -81,36 +84,115 @@
             area.value = text.substring(0, start) + `<${tag}>` + text.substring(start, end) + `</${tag}>` + text.substring(end);
         }
 
+        function truncatePreservingHTML(html, wordLimit) {
+            html = html.replace(/\n/g, '<br>');
+
+            const div = document.createElement('div');
+            div.innerHTML = html;
+            
+            let wordCount = 0;
+            let result = '';
+            
+            function traverse(node) {
+                if (wordCount >= wordLimit) return;
+
+                if (node.nodeType === Node.TEXT_NODE) {
+                    const words = node.textContent.split(/\s+/).filter(w => w.length > 0);
+                    if (wordCount + words.length > wordLimit) {
+                        const remaining = wordLimit - wordCount;
+                        result += words.slice(0, remaining).join(' ') + ' ...';
+                        wordCount = wordLimit; 
+                    } else {
+                        result += node.textContent;
+                        wordCount += words.length;
+                    }
+                } else if (node.nodeType === Node.ELEMENT_NODE) {
+                    const tagName = node.tagName.toLowerCase();
+                    
+                    if (tagName === 'br') {
+                        result += '\n'; // Convert back to newline for the summary
+                        return;
+                    }
+
+                    result += `<${tagName}>`;
+                    for (let i = 0; i < node.childNodes.length; i++) {
+                        traverse(node.childNodes[i]);
+                        if (wordCount >= wordLimit) break;
+                    }
+                    result += `</${tagName}>`;
+                }
+            }
+
+            for (let i = 0; i < div.childNodes.length; i++) {
+                traverse(div.childNodes[i]);
+                if (wordCount >= wordLimit) break;
+            }
+            
+            return result;
+        }
+
         function generateJSON() {
             const raw = document.getElementById('rawInput').value;
+            const summaryRaw = document.getElementById('summaryInput').value;
             const title = document.getElementById('title').value || "Untitled";
             const author = document.getElementById('author').value || "Anonymous";
             const date = document.getElementById('date').value || new Date().toISOString().split('T')[0];
             const category = document.getElementById('category').value;
+            const vol = parseInt(document.getElementById('volume').value) || 1;
 
+            // 1. Generate Unique ID
+            const idSlug = author.toLowerCase().replace(/[^\w\s]/gi, '').replace(/\s+/g, '-') + "-" + title.toLowerCase().replace(/[^\w\s]/gi, '').replace(/\s+/g, '-') + "-" + Math.floor(1000 + Math.random() * 9000);
+            const uniqueId = `${idSlug}`;
+
+            // 2. Prepare Full Content
             const cleanContent = raw
                 .replace(/\\/g, "\\\\")
                 .replace(/"/g, '\\"')
                 .replace(/\n/g, "\\n")
                 .replace(/\r/g, "");
 
-            const tempDiv = document.createElement("div");
-            tempDiv.innerHTML = raw;
-            const plainTextForSummary = tempDiv.textContent || tempDiv.innerText || "";
-            const summaryText = plainTextForSummary.substring(0, 120).replace(/"/g, '\\"') + "...";
+            // 3. Prepare Summary (Fallback to Smart Truncate if empty)
+            let finalSummary = summaryRaw.trim();
+            
+            if (!finalSummary) {
+                finalSummary = truncatePreservingHTML(raw, 25);
+            }
+            
+            // Escape the summary for JSON
+            finalSummary = finalSummary
+                .replace(/\\/g, "\\\\")
+                .replace(/"/g, '\\"')
+                .replace(/\n/g, "\\n")
+                .replace(/\r/g, "");
 
-            const entry = {
+            // 4. Create Metadata Entry
+            const metaEntry = {
+                id: uniqueId,
                 category: category,
                 title: title,
                 author: author,
                 date: date,
-                volume: parseInt(document.getElementById('volume').value) || 1,
-                summary: summaryText,
-                content: cleanContent,
+                volume: vol,
+                summary: finalSummary, 
                 type: category === 'poetry' ? 'poem' : 'essay'
             };
 
-            document.getElementById('result').textContent = JSON.stringify(entry, null, 2) + ",";
+            // 5. Create Library Entry
+            const libEntry = {
+                id: uniqueId,
+                content: cleanContent
+            };
+
+            // 6. Output Both
+            const output = `
+// COPY TO content.json:
+${JSON.stringify(metaEntry, null, 2)},
+
+// COPY TO library.json:
+${JSON.stringify(libEntry, null, 2)},
+            `;
+
+            document.getElementById('result').textContent = output;
         }
     </script>
 </body>

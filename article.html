@@ -51,65 +51,71 @@
 </footer>
 
 <script src="js/theme.js"></script>
+
 <script>
 async function loadSingleArticle() {
   const params = new URLSearchParams(window.location.search);
   const articleId = params.get('id');
 
-  const response = await fetch('data/content.json');
-  const works = await response.json();
-  
-  // Find the work by the URL ID
-  const work = works.find(w => w.title.replace(/\s+/g, '-').toLowerCase() === articleId);
+  try {
+    // 1. Fetch the Metadata (Title, Author, Date)
+    const indexResponse = await fetch('data/content.json');
+    const indexData = await indexResponse.json();
+    const metadata = indexData.find(w => w.id === articleId);
 
-  if (work) {
-    document.title = `${work.title} | Whallop & Co.`;
+    // 2. Fetch the Full Text Content
+    const libResponse = await fetch('data/library.json');
+    const libData = await libResponse.json();
+    const fullTextEntry = libData.find(w => w.id === articleId);
+
     const container = document.getElementById('article-content');
-    
-    let displayContent = "";
 
-    // Check if the content is a path to a PDF
-    if (work.content.endsWith('.pdf')) {
-      // Add parameters to the URL to hide the native UI as much as possible
-      const pdfUrl = `${work.content}#view=FitH&toolbar=0&navpanes=0`;
-      displayContent = `
-        <div class="pdf-container">
-          <iframe src="${pdfUrl}" type="application/pdf" width="100%" height="100%"></iframe>
-          <div class="pdf-fallback-link">
-            <a href="${work.content}" target="_blank" class="btn-read">Open PDF in New Tab</a>
-          </div>
-        </div>`;
+    if (metadata && fullTextEntry) {
+      document.title = `${metadata.title} | Whallop & Co.`;
+      
+      // Handle PDF logic (checks if the content string ends in .pdf)
+      let displayContent = "";
+      
+      if (fullTextEntry.content.endsWith('.pdf')) {
+          const pdfUrl = `${fullTextEntry.content}#view=FitH&toolbar=0&navpanes=0`;
+          displayContent = `
+            <div class="pdf-container">
+              <iframe src="${pdfUrl}" type="application/pdf" width="100%" height="100%"></iframe>
+              <div class="pdf-fallback-link">
+                <a href="${fullTextEntry.content}" target="_blank" class="btn-read">Open PDF in New Tab</a>
+              </div>
+            </div>`;
+      } else {
+          // Process text: Convert \n to <br> for HTML rendering
+          const rawContent = fullTextEntry.content;
+          const formattedContent = rawContent.replace(/\\n/g, '<br>');
+
+          displayContent = metadata.type === 'poem' 
+            ? `<div class="poetry-block">${formattedContent}</div>`
+            : `<div class="essay-body">${formattedContent}</div>`;
+      }
+
+      // Render the Page
+      container.innerHTML = `
+        <span class="metadata">${metadata.date} • ${metadata.category.toUpperCase()}</span>
+        <h1>${metadata.title}</h1>
+        <div class="byline">By ${metadata.author}</div>
+        ${displayContent}
+      `;
     } else {
-      // Standard text/HTML rendering
-      // FIX: Replace the literal \n strings with real HTML line breaks
-      const formattedContent = work.content.replace(/\\n/g, '<br>');
-  
-      displayContent = work.type === 'poem' 
-        ? `<div class="poetry-block">${formattedContent}</div>`
-        : `<div class="essay-body">${formattedContent}</div>`;
+      // Error State
+      container.innerHTML = `
+        <div style="text-align: center; margin-top: 100px;">
+          <h2>Manuscript Not Found</h2>
+          <p class="excerpt">We could not locate this document in the archive.</p>
+          <a href="index.html" class="btn-read" style="margin-top: 20px;">Return to Archive</a>
+        </div>`;
     }
-
-    container.innerHTML = `
-      <span class="metadata">${work.date} • ${work.category.toUpperCase()}</span>
-      <h1>${work.title}</h1>
-      <div class="byline">By ${work.author}</div>
-      ${displayContent}
-    `;
-  }
-  else {
-    // NEW: The fallback
-    document.title = "Not Found | Whallop & Co.";
-    document.getElementById('article-content').innerHTML = `
-      <div style="text-align: center; margin-top: 100px;">
-        <h2>Manuscript Not Found</h2>
-        <p class="excerpt">The requested document could not be located in the archive.</p>
-        <a href="index.html" class="btn-read" style="margin-top: 20px;">Return to Archive</a>
-      </div>
-    `;
+  } catch (error) {
+    console.error("Error loading manuscript:", error);
   }
 }
-
-  loadSingleArticle();
+loadSingleArticle();
 </script>
 </body>
 </html>

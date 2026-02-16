@@ -5,6 +5,7 @@ let displayCounts = {
   prose: 5,
   research: 5
 };
+let activeAuthorFilter = null;
 
 async function loadArchive() {
   try {
@@ -40,13 +41,21 @@ function romanize(num) {
 function renderCategory(category) {
   const container = document.getElementById(category);
   const sectionWrapper = document.getElementById(`${category}-section`);
-  
-  // Clear container before rendering (useful for filters)
-  container.innerHTML = '';
-  
+    container.innerHTML = '';
   // Filter works by category
-  const categoryWorks = allWorks.filter(w => w.category === category);
-  
+  let categoryWorks = allWorks.filter(w => w.category === category);
+  if (activeAuthorFilter) {
+    categoryWorks = categoryWorks.filter(w => w.author.includes(activeAuthorFilter));
+  }
+
+  if (categoryWorks.length === 0) {
+    sectionWrapper.classList.add('hidden-element');
+    sectionWrapper.style.display = 'none'; // Double ensure it hides
+  } else {
+    sectionWrapper.classList.remove('hidden-element');
+    sectionWrapper.style.display = 'block';
+  }
+
   // Determine how many to show
   const limit = displayCounts[category];
   const itemsToShow = categoryWorks.slice(0, limit);
@@ -55,23 +64,22 @@ function renderCategory(category) {
     const article = document.createElement('article');
     article.className = 'article-preview';
     
-    let previewText = "";
-    if (work.summary) {
-      previewText = work.summary;
-    } else if (work.content.endsWith('.pdf')) {
+    // 1. DEFINE VARIABLES FIRST
+    const volLabel = work.volume ? romanize(work.volume) : "I";
+    const articleUrl = work.id;
+
+    let previewText = work.summary || "View manuscript for full details.";
+    previewText = previewText.replace(/\\n/g, '<br>');
+
+    if (work.content && work.content.endsWith('.pdf')) {
       previewText = "Manuscript available in PDF format. Click below to view.";
-    } else {
-      previewText = work.content.substring(0, 200) + "...";
     }
 
     const contentHtml = work.type === 'poem' 
       ? `<div class="poetry-block">${previewText}</div>`
       : `<p class="excerpt">${previewText}</p>`;
 
-    const articleUrl = work.title.replace(/\s+/g, '-').toLowerCase();
-
-    const volLabel = work.volume ? romanize(work.volume) : "I";
-
+    // 3. RENDER ONCE
     article.innerHTML = `
       <span class="metadata">${work.date} • Volume ${volLabel}</span>
       <h2>${work.title}</h2>
@@ -128,44 +136,47 @@ function filterCategory(target) {
 }
 
 function filterByAuthor(name) {
-  // Reveal all, then filter
-  resetFilters();
-  const articles = document.querySelectorAll('.article-preview');
+  // 1. Set the global memory
+  activeAuthorFilter = name;
+
+  // 2. Reset the counts so the user starts at the top of the author's list
+  displayCounts = { poetry: 5, prose: 5, research: 5 };
+
+  // 3. Hide the Hero
   const heroSection = document.querySelector('.hero');
-  articles.forEach(article => {
-    if (!article.querySelector('.byline').innerText.includes(name)) {
-      article.classList.add('hidden-element');
-    }
+  if (heroSection) {
+     heroSection.classList.add('hero-hidden');
+  }
 
-    if (heroSection) {
-      heroSection.classList.add('hero-hidden');
-    }
-  });
+  // 4. Re-render all categories (renderCategory will now see the activeAuthorFilter)
+  renderCategory('poetry');
+  renderCategory('prose');
+  renderCategory('research');
 
-  // 2. Hide entire sections if they have no visible articles left
-  const categories = ['poetry', 'prose', 'research'];
-  categories.forEach(cat => {
-    const section = document.getElementById(`${cat}-section`);
-    const container = document.getElementById(cat); // The div holding the articles
-    
-    // Find all articles in this category that are NOT hidden
-    const visibleArticles = container.querySelectorAll('.article-preview:not(.hidden-element)');
-    
-    // If there are 0 visible articles, hide the whole section (including the header)
-    if (visibleArticles.length === 0) {
-      section.classList.add('hidden-element');
-    } else {
-      section.classList.remove('hidden-element');
-    }
-  });
+  // 5. Scroll to top
+  window.scrollTo({ top: 0, behavior: 'smooth' });
 }
-
 function resetFilters() {
+  // 1. Clear the memory
+  activeAuthorFilter = null;
+  
+  // 2. Reset counts
+  displayCounts = { poetry: 5, prose: 5, research: 5 };
+
+  // 3. Show Hero
   const heroSection = document.querySelector('.hero');
   if (heroSection) {
     heroSection.classList.remove('hero-hidden');
   }
+
+  // 4. Re-render everything normally
+  renderCategory('poetry');
+  renderCategory('prose');
+  renderCategory('research');
+
+  // 5. Ensure all sections are visible (in case they were hidden by empty author results)
   document.querySelectorAll('.hidden-element').forEach(el => el.classList.remove('hidden-element'));
+  
   window.scrollTo({ top: 0, behavior: 'smooth' });
 }
 
@@ -221,10 +232,10 @@ function searchArchive() {
         const article = document.createElement('article');
         article.className = 'article-preview';
         
-        // Ensure \n line breaks are handled in search previews too
         const volLabel = work.volume ? romanize(work.volume) : "I";
-        const previewText = (work.summary ? work.summary : work.content.substring(0, 200) + "...").replace(/\\n/g, '<br>');
-        const articleUrl = work.title.replace(/\s+/g, '-').toLowerCase();
+        const articleUrl = work.id; 
+        let previewText = work.summary || "View manuscript for full details.";
+        previewText = previewText.replace(/\\n/g, '<br>');
 
         article.innerHTML = `
           <span class="metadata">${work.date} • Volume ${volLabel}</span>
