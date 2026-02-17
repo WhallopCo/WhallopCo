@@ -85,6 +85,8 @@ async function loadSingleArticle() {
                 <a href="${fullTextEntry.content}" target="_blank" class="btn-read">Open PDF in New Tab</a>
               </div>
             </div>`;
+      } else if (metadata.type === 'video') {
+          displayContent = fullTextEntry.content;
       } else {
           // Process text: Convert \n to <br> for HTML rendering
           const rawContent = fullTextEntry.content;
